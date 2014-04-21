@@ -1,0 +1,88 @@
+<extend name="Public/base" />
+<block name="content">
+<!--用于添加子栏目或更新栏目-->
+<!--<div class='center user metro'>-->
+<!--<div class="span10 alert alert-success hidden"></div>-->
+<table border=0 cellpadding=5 cellspacing=2 class='bordered'>
+    <caption>网站栏目管理</caption>
+<tr style='background:#EEF3F7'>
+    <td>排序</td>
+    <td>栏目名称</td>
+    <td>背景色</td>
+    <td>icon</td>
+    <td>是否开启</td>
+    <td>栏目模型</td>
+    <td>链接</td>
+    <td>管理操作  <a href="<{:U('column/add')}>">[添加栏目]</a></td>
+</tr>
+<form action='__SELF__' method='post'>
+<volist name="column" id='ls'>
+    <tr>
+        <td><input type=text name='sortid' value="<{$ls.sortid}>" class='sortnum' size=2 /><input type=hidden name="id" value="<{$ls.id}>" /></td>
+        <td class='father' style="text-align:left;"><{$ls.typename}>[ID:<{$ls.id}>]</td>
+        <td><span class="square10 inline-block bg-<{$ls.bgcolor}>"></span>&nbsp;<{$ls.bgcolor}></td>
+        <td><i class='<{$ls.icon}>'></i></td>
+        <td><{$ls.show_index}></td>
+        <td><{$ls.type}></td>
+        <td><{$ls.link}></td>
+        <td>
+            <a href="<{:U('column/add',array('cid'=>$ls['id']))}>">修改</a>
+            <!--<a href="javascript:void(0)" value='<{$ls.id}>' class='del'>删除</a>-->
+            <a href="<{:U('column/del',array('cid'=>$ls['id']))}>" class='del'>删除</a>
+        </td>
+    </tr>
+</volist>
+<tr><td><button class='info' type="submit" id='submit'>提 交</button></tr>
+</form>
+</table> 
+<!--</div>-->
+<script language=javascript>
+    $(function(){
+        $('table tr:odd').css('background','#FBFCE2');
+        $('table tr:even:gt(0)').css('background','#E3EFFB');
+        
+        //删除栏目ajax
+        $('.del').click(function(){
+            var href= $(this).attr('href');
+            $.get(href,function(data){
+                 if(data.status == 1){
+                    $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                    setTimeout(function(){
+                        location.reload();
+                    },1500);
+                    }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                }
+            },'json');
+            //alert(cid);
+            return false;
+        });
+        
+        //排序的ajax提交
+        $('form').submit(function(){
+            var sort = $("input[name='sortid']").serializeArray();
+            var sortid=new Array();
+            $.each(sort,function(i,field){
+                sortid[i] = field.value;
+            });
+            var id = $("input[name='id']").serializeArray();
+            var ids = new Array();
+            $.each(id,function(i,field){
+                ids[i] = field.value;
+            });
+            $.post('__SELF__',{'sortids[]':sortid,'ids':ids},function(data){
+                if(data.status == 1){
+                    $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                    setTimeout(function(){
+                        location.reload();
+                    },1500);
+                    }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                }
+            },'json');
+            
+            return false;
+        });
+    })
+</script>
+</block>

@@ -1,0 +1,28 @@
+<extend name="Public/base" />
+<block name="content">
+    <table border=0 cellpadding=5 cellspacing=2>
+        <caption>网站管理员列表(删除项请直接删除数据库)</caption>
+	<tr style='background:#EEF3F7'>
+	    <td>ID</td>
+	    <td>用户名</td>
+        <td>用户组</td>
+        <td>更新时间</td>
+	    <td>管理操作 <a href="<{:U('access/edituser')}>">[添加管理员]</a></td>
+    </tr>
+
+    <volist name='user' id='ls'>
+    <tr>
+        <td><{$ls.id}></td>
+        <td><{$ls.username}></td>
+        <td><{$ls.title}></td>
+        <td><{$ls.savetime|date='y-m-d',###}></td>
+        <td style='text-align:center;'><a href="<{:U('access/edituser',array('id'=>$ls['id']))}>">修 改</a></td>
+    </tr>
+    </volist>
+    </table> 
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+</script>
+</block>

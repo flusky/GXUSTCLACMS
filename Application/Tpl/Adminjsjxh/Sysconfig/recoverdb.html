@@ -1,0 +1,59 @@
+<extend name="Public/base" />
+<block name="content">
+    <table border=0 cellpadding=5 cellspacing=2>
+        <caption>数据库还原</caption>
+	<tr style='background:#EEF3F7'>
+	    <td>文件名</td>
+		<!--<td>文件大小</td>-->
+        <!--<td>备份时间</td>-->
+        <td>管理操作</td>
+    </tr>
+    <volist name="sql" id='ls'>
+    <tr>
+        <td><{$ls}></td>
+        <td><a href="<{:U('sysconfig/recoverdb')}>" class='back button info' title="<{$ls}>">还 原</a>&nbsp;<a href="<{:U('sysconfig/delSqlFile',array('file'=>$ls))}>" class='delsql button inverse'  title="<{$ls}>">删 除</a></td>
+    </tr>
+    </volist>
+    </table> 
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+$(function(){
+
+     $('tr:gt(0)').hover(function(){$(this).css('background','#E3EFFB');},function(){$(this).css('background','#fff');})
+
+    $('.alert').ajaxStart(function(){
+        $(this).removeClass('hidden');   
+    });
+    $('.alert').ajaxStop(function(){
+        setTimeout(function(){
+                $('.alert').addClass('hidden');     
+            },1500);   
+    });
+   
+    $("a.back").click(function(){
+        var href = $(this).attr('href');
+        var table = $(this).attr('title');
+        $('.alert').text("...正在还原   "+table);
+        $.post(href,{'table':table},function(data){
+            $('.alert').text(data.info);
+            });
+            return false;
+    });       
+    $("a.delsql").click(function(){
+        var href = $(this).attr('href');
+        var table = $(this).attr('title');
+        $('.alert').text("...正在删除   "+table);
+        //alert("jflsd");
+        $.get(href,function(data){
+                $('.alert').text(data.info);
+                setTimeout(function(){
+                    location.reload();
+                    },1000);
+                });
+        return false;
+        });
+});
+</script>
+</block>

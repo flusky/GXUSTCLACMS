@@ -1,0 +1,45 @@
+<extend name="Public/base" />
+<block name="content">
+<table border=0 cellpadding=5 cellspacing=2 class='bordered'>
+    <caption>协会相册列表</caption>
+    <tr style="background:#eef3f7;">
+        <td>ID</td>
+        <td>相册名称</td>
+        <td>所属栏目</td>
+        <td>浏览次数</td>
+        <td>发布时间</td>
+        <td>管理操作<a id='add' href="<{:U('article/addpicture')}>">[添加相册]</a></td>
+    </tr>
+    <volist name='picture' id='ls'>
+    <tr>
+        <td><{$ls.id}></td>
+        <td><{$ls.title}></td>
+        <td><{$ls.typename}></td>
+        <td><{$ls.scantimes}></td>
+        <td><{$ls.pushtime|date="y-m-d",###}></td>
+        <td><a href="<{:U('article/addpicture',array('id'=>$ls['id']))}>" >修 改</a>&nbsp;<a href="<{:U('article/picture',array('id'=>$ls['id']))}>" class='del'>删 除</a></td>
+    </tr>
+    </volist>
+</table>
+<script language="javascript">
+    $(function(){
+        $('tr:gt(0)').hover(function(){$(this).css('background','#E3EFFB');},function(){$(this).css('background','#fff');})
+
+        //删除ajax
+        $('.del').click(function(){
+            $.post($(this).attr('href'),"handle=del",function(data){
+                if(data.status == 1){
+                    $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                    setTimeout(function(){
+                        location.href=data.url;
+                        },1500);
+                    }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                    }
+            });
+            return false;
+        });
+    })
+</script>
+</block>
+

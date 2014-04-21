@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><{$type.typename}>---<{:C('WEB_TITLE')}></title>
+    <meta name="keywords" content="<{:C('WEB_KEYWORDS')}>"> 
+    <meta name="description" content="<{:C('WEB_DESCRIPTION')}>">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="__STATIC__/css/second.css" />
+    <link rel="stylesheet" href="__STATIC__/metro/css/metro-bootstrap.css" />
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <block name="script"></block>
+    <style type="text/css">
+        body{
+            background-color:#cdcdcd;
+        }
+    </style>
+</head>
+<body class="metro">
+    <header class='bg-dark'>
+    <div class="head center-block">
+        <!--logo-->
+        <div class="logo text-center">
+            <img src="__STATIC__/images/logo.png" alt="广西科技大学计算机爱好者协会" style="width:300px;height:60px;" />
+        </div>
+        <!--end logo-->
+
+        <!--nav-->
+        <div class="nav navigation-bar dark">
+            <div class="navigation-bar-content container">
+                <a href="__ROOT__" class="element"><i class="icon-home"></i> 首页</a>
+                <!--<span class="element-divider"></span>-->
+                <ul class="element-menu">
+                    <volist name="column" id='ls'>
+                    <li>
+                    <a  href="<{:U($ls['link'],array('cid'=>$ls['id']))}>"><i class="<{$ls.icon}>"></i> <{$ls.typename}></a>
+                    </li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+        <!--end nav-->
+    </div>
+    </header>
+    <section>
+    <div class="content">
+        <h1><a href="javascript:history.go(-1)"><i class="icon-arrow-left-3 fg-darker smaller"></i> </a> <{$type.typename}>
+        </h1>
+    <block name="content"></block>
+    </div>
+    </section>
+    <footer>
+    <div class="copy center-block" style="font-size:14px;"><{:C('WEB_COPYRIGHT')}>
+    </div>
+    <div class="center-block" style="width:150px;">
+    <!--百度统计-->
+    <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F30bd5047d586a5f47e4a45b9c34c25c2' type='text/javascript'%3E%3C/script%3E"));
+</script>
+    </div>
+    </footer>
+
+    <!--百度分享-->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"6","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</body>
+</html>
+</body>
+</html>

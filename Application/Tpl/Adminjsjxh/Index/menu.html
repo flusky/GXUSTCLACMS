@@ -1,0 +1,60 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<meta http-equiv=content-type content="text/html; charset=utf-8">
+<link href="__STATIC__/admin/css/admin.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src='__STATIC__/admin/js/jquery-1.8.0.min.js'></script>
+</head>
+<body>
+<div id='left'>
+    <div id='menu'>
+	<ul>
+        <li><a href="<{:U('column/index')}>" target="main">栏目管理</a></li>
+    <li class='father'><a href="javascript:void(0);" target="main">文章管理</a>
+            <ul style='display:none;'>
+                <li><a href="<{:U('article/index')}>" target="main">文章列表</a></li>
+                <li><a href="<{:U('article/downls')}>" target="main">下载模型</a></li>
+                <li><a href="<{:U('article/picture')}>" target="main">图片模型</a></li>
+                <!--<li><a href='' target="main">审核文章</a></li>-->
+            </ul>
+        </li>
+        <li class='father'><a href="javascript:void(0)" target="main">权限管理</a>
+            <ul style='display:none;'>
+                <li><a href="<{:U('access/user')}>" target="main">用户管理</a></li>
+				<!--<li><a href="<{:U('access/role')}>" target="main">角色管理</a></li>-->
+				<!--<li><a href="<{:U('access/access')}>" target="main">权限列表</a></li>-->
+            </ul>
+		</li>
+        <li class='father'><a href="javascript:void(0)" target="main">模块管理</a>
+			<ul style='display:none;'>
+				<li><a href="<{:U('module/flink')}>" target="main">友情链接</a></li>
+                <li><a href="<{:U('module/clearCache')}>" target="main">清空缓存</a></li>
+                <li><a href="<{:U('module/clearLogs')}>" target="main">清空日志</a></li>
+			</ul>
+        </li>
+        <li class='father'><a href="javascript:void(0)" target="main">系统配置</a>
+			<ul style='display:none;'>
+				<li><a href="<{:U('sysconfig/backdb')}>" target="main">备份数据库</a></li>
+                <li><a href="<{:U('sysconfig/recoverdb')}>" target="main">还原数据库</a></li>
+                <li><a href="<{:U('sysconfig/backupimg')}>" target="main">备份图片</a></li>
+			</ul>
+        
+        </li>
+	</ul>   
+    </div>
+</div>
+     </body>
+     <script type="text/javascript">
+         $(function(){
+                $('.father a:first-child').click(function(){
+                    //$('.father ul').show();
+                    //alert(2312);
+                    var show=$(' + ul',this);
+                    if(show.is(':visible')){
+                        show.hide();
+                    }else{
+                        show.show();
+                    }
+                }); 
+        })
+     </script>
+ </html>

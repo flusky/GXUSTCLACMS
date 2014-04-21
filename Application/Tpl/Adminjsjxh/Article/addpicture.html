@@ -1,0 +1,85 @@
+<extend name="Public/base" />
+<block name="content">
+<form action='__SELF__' method='post' enctype="multipart/form-data">
+        <table border=0 cellpadding=5 cellspacing=2>
+            <caption style="margin:10px 0;text-align:center;">添 加 相 册</caption>
+            <tr>
+                <td>相册标题：</td>
+                <td colspan=3><input type='text' name='title' style="width:90%"/></td>
+            </tr>
+            <tr>
+                <td>上传图片：</td>
+                <td colspan=3>
+                    <input type="file" id="uploadify" />
+                </td>
+            </tr>
+             <tr>
+                <td>浏览次数：</td>
+                <td><input type='text' name='scantimes' value='75'/></td>
+                <td>所属栏目：</td>
+                <td>
+                    <select name='cid'>
+                        <volist name='column' id='ls'>
+                        <option value="<{$ls.id}>"><{$ls.typename}></option>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+             
+            <tr>
+                <td>相册描述：</td>
+                <td colspan="3"><textarea cols=30 rows=5 name='description'></textarea></td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="info" type='submit'>提 交</button>
+                </td>
+            </tr>
+        </table>    
+    </form>
+</block>
+<block name="script">
+ <link rel="stylesheet" href="__STATIC__/uploadify/uploadify.css" />
+   <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify-3.1.min.js"></script>
+<script type="text/javascript">
+//ajax 上传图片
+     var thumbs = Array();
+     $('#uploadify').uploadify({
+            'swf':'__STATIC__/uploadify/uploadify.swf',
+            'uploader':"<{:U('article/imgUpload')}>",
+            'buttonText':'浏 览',
+            //文件限制大小，单位KB
+            'fileSizeLimit':5000,
+            //显示上传列表
+            'removeCompleted':false,
+            //上传文件类型说明
+            'fileDesc':'图片类型',
+            'fileTypeExts':'*.png;*.jpg;*.gif',
+            'cancelImg':'__STATIC__/uploadify/uploadify-cancel.png',
+            //文件上传成功后触发
+            'onUploadSuccess':function(file,data,reponse){
+                data=eval('('+data+')');
+                var info = data.info;
+                thumbs.push(info[0]['savename']);
+            },
+        });
+        
+       
+    //ajax提交 
+    $('form').submit(function(){
+            var arg_get= $(this).serialize();
+            //alert(str);
+            $.post("__SELF__",arg_get+'&uploadify='+thumbs,function(data){
+                if(data.status == 1){
+                    $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                    setTimeout(function(){
+                        location.href=data.url;
+                        },1500);
+                    }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                    }
+                });
+            return false;
+            });
+</script>
+</block>

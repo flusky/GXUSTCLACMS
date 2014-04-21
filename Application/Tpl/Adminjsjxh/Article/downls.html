@@ -1,0 +1,80 @@
+<extend name="Public/base" />
+<block name="content">
+<table border=0 cellpadding=5 cellspacing=2 class='bordered'>
+    <caption>下载资源列表</caption>
+    <tr style="background:#eef3f7;">
+        <td>ID</td>
+        <td>资源名称</td>
+        <td>所属栏目</td>
+        <td>下载地址</td>
+        <td>下载次数</td>
+        <td>发布时间</td>
+        <td>管理操作<a id='add' href="javascript:void(0)">[添加资源]</a></td>
+    </tr>
+    <volist name='down' id='ls'>
+    <tr>
+        <td><{$ls.id}></td>
+        <td><{$ls.name}></td>
+        <td><{$ls.typename}>[<{$ls.cid}>]</td>
+        <td><{$ls.down_url}></td>
+        <td><{$ls.down_times}></td>
+        <td><{$ls.push_time|date="y-m-d",###}></td>
+        <td><a href="__SELF__?id=<{$ls.id}>" class='del'>删 除</a></td>
+    </tr>
+    </volist>
+    <tr id='addform' class='hidden'>
+        <form action="__SELF__" method='post'>
+            <td></td>
+            <td><input type='text' name='name' class='span3' /></td>
+            <td><input type='text' name='cid' class='span1' /></td>
+            <td><input type='text' name='down_url' class='span3' /></td>
+            <td><input type='text' name='down_times' class='span1' /></td>
+            <td></td>
+            <td><button class='info'>确定</button>&nbsp;&nbsp;<a class='button inverse cancel' href='javascript:void(0)'>取消</a></td>
+        </form>
+    </tr>
+</table>
+<script language="javascript">
+    $(function(){
+        $('tr:gt(0)').hover(function(){$(this).css('background','#E3EFFB');},function(){$(this).css('background','#fff');})
+        //隐藏表单
+        $('a.cancel').click(function(){
+            $('#addform').addClass('hidden');
+        });
+        //让表单显示出来
+        $('#add').click(function(){
+            $('#addform').removeClass('hidden')
+            $('button.info').click(function(){
+                var args = $('form').serialize();
+                $.post('__SELF__?'+args,{'handle':'add'},function(data){
+                    if(data.status == 1){
+                    $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                    setTimeout(function(){
+                        location.href=data.url;
+                        },1500);
+                    }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                    }
+                },'json');
+                return false;
+            });
+        });
+
+        //删除ajax
+        $('.del').click(function(){
+            $.post($(this).attr('href'),{'handle':'del'},function(data){
+                if(data.status == 1){
+                    $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                    setTimeout(function(){
+                        location.href=data.url;
+                        },1500);
+                    }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                    }
+            },'json');
+            return false;
+        });
+    })
+</script>
+</block>
+

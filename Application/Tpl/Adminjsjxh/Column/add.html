@@ -1,0 +1,78 @@
+<extend name="Public/base" />
+<block name="content">
+<!--<div class='user metro'>-->
+<!--<div class="span10 alert alert-success hidden"></div>-->
+    <form action='__SELF__' method='post'>
+        <table border=0 cellpadding=5 cellspacing=2>
+            <caption>编辑栏目</caption>
+            <tr>
+                <td>背景色：</td>
+                <td>
+                    <input  type="text" name="bgcolor" />
+                    <a href="http://metroui.org.ua/global.html" target="_blank">详见</a>
+                </td>
+            </tr>
+            <tr>
+                <td>栏目模型：</td>
+                <td>
+                    <input type='radio' name='type' value='1' checked />文章模型
+                    <input type='radio' name='type' value='2' />图片模型
+                    <input type='radio' name='type' value='3' />下载模型
+                </td>
+            </tr>
+            <tr>
+                <td>是否在首页显示：</td>
+                <td>
+                    <input id="" type="radio" name="show_index" value='1' checked />是 &nbsp;
+                    <input id="" type="radio" name="show_index" value='0' />否
+                </td>
+            </tr>
+            <tr>
+                <td>icon</td>
+                <td>
+                    <input  type="text" name="icon" />
+                    <a href="http://metroui.org.ua/icons.html" target="_blank">详见</a>
+                </td>
+            </tr>
+            <tr>
+                <td>栏目名称</td>
+                <td><input type="text" name='typename' /></td>
+            </tr>
+            <tr>
+                <td>链接</td>
+                <td><input type="text" name='link' /></td>
+            </tr>
+            <tr>
+                <td>排序ID</td>
+                <td><input type="text" name='sortid' value='50'/></td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="info" type='submit'>提 交</button>
+                </td>
+                <td>
+                    <input type='button' class='inverse' value="返  回" onClick="javascript:history.go(-1);" />
+                    <!--<button class="inverse" onclick="javascript:history.go('-1');">返 回</button>-->
+                </td>
+            </tr>
+        </table>
+    </form>
+<!--</div>-->
+<script type="text/javascript">
+    $(function(){
+            $('form').submit(function(){
+                $.post('__SELF__',$(this).serialize(),function(data){
+                    if(data.status == 1){
+                        $('.alert').removeClass('alert-danger hidden').addClass('alert-success').text(data.info);
+                        setTimeout(function(){
+                            location.href=data.url;
+                            },2000);
+                        }else{
+                        $('.alert').removeClass('alert-success hidden').addClass('alert-danger').text(data.info);
+                        }
+                    },'json');
+                return false;
+                });
+            })
+</script>
+</block>

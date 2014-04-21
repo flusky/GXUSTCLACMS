@@ -1,0 +1,13 @@
+<div id="main">
+    <div class='content'>
+        <h2 class='text-center'><{$column.typename}></h2>
+        <ul>
+            <{foreach $list as $item}>
+            <li><a  href="<{$_APP_}>/index/show/<{$item.id}>"><{$item.title}></a></li>
+            <{foreachelse}>
+            <li><h3 class='text-center'>该栏目暂时没有内容</h3></li>
+            <{/foreach}>
+        </ul>      
+    </div>
+</div>
+<{include file='public/footer.html'}>

@@ -1,0 +1,137 @@
+<extend name="Public/base" />
+<block name="content">
+<form action='__SELF__' method='post' enctype="multipart/form-data">
+    <input type="hidden" name="handle" value="update" />
+    <input type="hidden" name="pass" value='<{$article.pass}>' />
+    <input type='hidden' name='id' value='<{$article.id}>'>
+        <table border=0 cellpadding=5 cellspacing=2>
+            <caption style="margin:10px 0;text-align:center;">编 辑 文 章</caption>
+            <tr>
+                <td>文章标题：</td>
+                <td colspan=3><input type='text' name='title' style="width:94%" value="<{$article.title}>"/></td>
+            </tr>
+            <tr>
+                <td>文章来源：</td>
+                <td><input type='text' name='from' value="<{$article.from}>"/></td>
+                <td>文章作者：</td>
+                <td><input type='text' name='author' value='<{$article.author}>' /></td>
+            </tr>
+             <tr>
+                <td>缩 略 图：</td>
+                <td colspan=3>
+                    <empty name="article['thumb']">
+                        <input type="file"  id="uploadify" />
+                    <else />
+                        <input type="text" name='thumb' value='<{$article.thumb}>' style="width:70%;" readonly='readonly' />
+                    </empty>
+
+
+                </td>
+            </tr>
+             <tr>
+                <td>浏览次数：</td>
+                <td><input type='text' name='scan_times' value='<{$article.scan_times}>'/></td>
+                <td>文章栏目：</td>
+                <td>
+                    <select name='cid'>
+                        <volist name='column' id='ls'>
+                        <if condition="($ls['id'] eq $article['cid'])">
+                        <option value="<{$ls.id}>" selected><{$ls.typename}></option>
+                        <else />
+                        <option value="<{$ls.id}>"><{$ls.typename}></option>
+                        </if>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+             
+            <tr>
+                <td>图片类型：</td>
+                <td colspan="3">
+                    <input type="checkbox" name="imgtype" value='1'/>首页幻灯片
+
+                </td>
+            </tr>
+    
+             <tr>
+                <td>文章描述：</td>
+                <td colspan="3"><textarea cols=50 rows=6 name='description'><{$article.description}></textarea></td>
+            </tr>
+
+            <tr><td colspan=4>文章内容：</td></tr>
+            <tr>
+                <td colspan=4>
+                    <script id="editor" name="content" type="text/plain" style="width:640px;height:400px;"><{$article.content}></script>
+                </td>
+            </tr>
+<tr>
+            <tr>
+                <td>
+                    <button class="info" type='submit'>提 交</button>
+                </td>
+                <td>
+                    <input type='button' class='inverse' value="返  回" onClick="javascript:history.go(-1);" />
+                </td>
+            </tr>
+        </table>    
+    </form>
+</block>
+<block name="script">
+ <link rel="stylesheet" href="__STATIC__/uploadify/uploadify.css" />
+   <script type="text/javascript" src="__ROOT__/ueditor/ueditor.config.js"> </script>
+   <script type="text/javascript" src="__ROOT__/ueditor/ueditor.all.min.js"> </script>
+   <script type="text/javascript" src="__ROOT__/ueditor/lang/zh-cn/zh-cn.js"> </script>
+   <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify-3.1.min.js"></script>
+<script type="text/javascript">
+     UE.getEditor('editor');
+     //判断哪些checkbox选中的
+     var imgtype ="<{$article.imgtype}>";
+     if(imgtype.indexOf('1') != -1){
+        $("input[name='imgtype'][value='1']").attr('checked',true);
+        //alert('sdjfkl');
+     }
+//ajax 上传图片
+     var thumbs = Array();
+     $('#uploadify').uploadify({
+            'swf':'__STATIC__/uploadify/uploadify.swf',
+            'uploader':"<{:U('common/swfUpload')}>",
+            'buttonText':'浏 览',
+            //文件限制大小，单位KB
+            'fileSizeLimit':5000,
+            //显示上传列表
+            'removeCompleted':false,
+            //上传文件类型说明
+            'fileDesc':'图片类型',
+            'fileTypeExts':'*.png;*.jpg;*.gif',
+            'cancelImg':'__STATIC__/uploadify/uploadify-cancel.png',
+            //文件上传成功后触发
+            'onUploadSuccess':function(file,data,reponse){
+                data=eval('('+data+')');
+                var info = data.info;
+                thumbs.push(info[0]['savename']);
+            },
+        });
+        
+
+       
+//ajax提交 
+    $('form').submit(function(){
+            var arg_get= $(this).serialize();
+            //alert(str);
+            //$.post("__SELF__?"+arg_get,{'thumb[]':thumbs},function(data){
+            $.post("__SELF__",arg_get+'&thumbs='+thumbs,function(data){
+                if(data.status == 1){
+                    $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                    setTimeout(function(){
+                        location.href=data.url;
+                        },1500);
+                    }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                    }
+                });
+            return false;
+            });
+            
+</script>
+</block>
+

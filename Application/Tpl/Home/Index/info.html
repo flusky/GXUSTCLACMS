@@ -1,0 +1,14 @@
+<extend name="Public/base"/>
+<block name="content">
+    <!--<h4 class='text-center'>sdjfklsdjkflsjdkl</h4>-->
+    <div id='artbox'>
+        <empty name='data'>还没有内容
+        <else/>
+            <h2 class='title'><{$data.title}></h2>
+            <div class='artinfo' style="font-size:14px;">文章作者：<{$data.author}>&nbsp;&nbsp;文章来源：<{$data.from}>&nbsp;&nbsp;更新时间：<{$data.update_time|date="y-m-d",###}>&nbsp;&nbsp;浏览次数：<{$data.scan_times}></div>
+            <div><{$data.content}></div>
+        </empty>
+    </div>
+</block>
+
+

@@ -1,0 +1,13 @@
+<extend name="Public/base"/>
+<block name="content">
+    <!--<h4 class='text-center'>sdjfklsdjkflsjdkl</h4>-->
+    <ol>
+        <empty name="art">还没有内容
+        <else />
+        <volist name="art" id='ls'>
+        <li><a href="<{:U('index/info',array('aid'=>$ls['id']))}>"><{$ls.title}></a></li>
+        </volist>
+        </empty>
+    </ol>
+</block>
+

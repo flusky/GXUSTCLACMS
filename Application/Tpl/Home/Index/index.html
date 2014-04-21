@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="<{:C('WEB_KEYWORDS')}>" />
+    <meta name="description" content="<{:C('WEB_DESCRIPTION')}>">
+    <title><{:C('WEB_TITLE')}></title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link href="__STATIC__/metro/css/metro-bootstrap.css" rel="stylesheet">
+    <!-- Load JavaScript Libraries -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="__STATIC__/metro/js/jquery/jquery.widget.min.js"></script>
+    <script src="__STATIC__/metro/min/metro.min.js"></script>
+    <script src="__STATIC__/metro/js/jquery/jquery.mousewheel.js"></script>
+    <!-- Local JavaScript -->
+    <script src="__STATIC__/metro/js/start-screen.js"></script>
+    <style type="text/css">
+    .tile-area-dark{
+        background:#260930 url('__STATIC__/images/bg.jpg') no-repeat fixed top;
+    }
+    .linkImg{
+        display:block;
+        margin:0 auto;
+        vertical-align:middle;
+        max-width:50%;
+        max-height:70%;
+    }
+	body{
+		font-family:微软雅黑;
+	}
+    </style>
+
+</head>
+<body class="metro">
+    <div class="tile-area tile-area-dark">
+        <h1 class="tile-area-title fg-white">广西科技大学计算机爱好者协会</h1>
+        <div class="tile-group five">
+            <!--weather-->
+            <a class="tile double bg-lightBlue">
+                <div class="tile-content">
+                <iframe src="http://www.thinkpage.cn/weather/weather.aspx?uid=U612887138&cid=CHGX020000&l=zh-CHS&p=SMART&a=0&u=C&s=13&m=0&x=1&d=0&fc=&bgc=2E93D9&bc=&ti=0&in=1&li=&ct=iframe" frameborder="0" scrolling="no" width="250" height="120" allowTransparency="true"></iframe>
+                </div>
+                <div class="brand">
+                    <!--<div class="label"><h3 class="no-margin fg-white"><span class="icon-info"></span></h3></div>-->
+                    <!--<div class="label">柳州天气</div>-->
+                </div>
+            </a> <!-- end tile -->
+            <!--end weather-->
+
+            <!--新闻动态-->
+            <div class="tile double bg-emerald live" data-role="live-tile" data-effect="slideUpDown">
+                <volist name='news' id='ls'>
+                <a href="<{:U('index/info',array('aid'=>$ls['id']))}>" class="tile-content">
+                    <h4 class="fg-white padd-left10"><{$ls.title}></h4>
+                    <p class="fg-white padd-left10"><{$ls.description|substr=0,60 }></p>
+
+                </a>
+                </volist>
+                <div class="brand">
+                    <!--<div class="label"><h3 class="no-margin fg-white"><span class="icon-info"></span></h3></div>-->
+                    <div class="label">新闻动态</div>
+                    <!--<div class="badge">3</div>-->
+                </div>
+            </div> <!-- end tile -->
+            <!--end 新闻动态-->
+    
+            <!--最新公告-->
+            <div class="tile double double-vertical  bg-darkOrange">
+                <a href="<{:U('index/info',array('aid'=>$notice['id']))}>" class="tile-content">
+                    <div class="padding10 fg-white">
+                        <img src="__STATIC__/images/notice.png" style='widget:60px;height:60px;' />
+                        <span style="font-size:20px;"><{$notice.title}></span>
+                        <div class='fg-white margin10'><{$notice.description}></div>
+                    </div>
+                </a>
+                <div class="tile-status">
+                    <div class="label">最新公告</div>
+                    <!--<div class="badge">99</div>-->
+                </div>
+            </div> <!-- end tile -->
+             <!-- end 新闻公告-->
+
+             <!--start focus-->
+             <div class="tile triple double-vertical">
+                 <div class="carousel" id="carousel1">
+                     <volist name="focus" id='ls'>
+                    <a href="<{:U('index/info',array('aid'=>$ls['id']))}>" class="slide">
+                         <img src="./Upload/thumb/<{$ls.thumb}>" style="width:100%"/>
+                     </a>
+                     </volist>
+                     <a class="controls left"><i class="icon-arrow-left-3"></i></a>
+                     <a class="controls right"><i class="icon-arrow-right-3"></i></a>
+                 </div>
+                <script type="text/javascript">
+                    $(function(){
+                        $("#carousel1").carousel({
+                            height:250, 
+                            period:3000,
+                            markers: {
+                                show: true,
+                                type: 'square',
+                                position: 'bottom-left'
+                            },
+                        });
+                    })
+                </script>
+             </div>
+             <!--end focus-->
+         </div> <!-- End group five -->
+             <!--end    focus-->
+    
+
+            <!--本站导航-->
+             <div class="tile-group three">
+                 <div class="tile-group-title">本站导航</div>
+                 <volist name='nav' id='ls'>
+                 <a href="<{:U($ls['link'],array('cid'=>$ls['id']))}>" class="tile bg-<{$ls.bgcolor}>">
+                     <div class="tile-content icon">
+                         <i class="<{$ls.icon}>"></i>
+                     </div>
+                     <div class="brand">
+                         <div class="label"><{$ls.typename}></div>
+                     </div>
+                 </a>
+                 </volist>
+             </div>
+             <!--end 本站导航-->
+             <!--flink-->
+             <div class="tile-group four">
+                 <div class="tile-group-title">友情链接</div>
+                 <volist name="flink" id='ls'>
+                 <a href="<{$ls.url}>" target='_blank' class="tile bg-<{$ls.bgcolor}>">
+                     <div class="tile-content icon">
+                         <img  src="./Upload/thumb/<{$ls.logo}>" />
+                     </div>
+                     <div class="brand">
+                         <div class="label"><{$ls.name}></div>
+                     </div>
+                 </a>
+                 </volist>
+             </div>
+             <!--end flink-->
+    </div>
+     <!--end tile-area-->
+</body>
+</html>

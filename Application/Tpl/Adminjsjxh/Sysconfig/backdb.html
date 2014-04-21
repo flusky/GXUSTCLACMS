@@ -1,0 +1,55 @@
+<extend name="Public/base" />
+<block name="content">
+    <table border=0 cellpadding=5 cellspacing=2>
+        <caption>数据库备份</caption>
+	<tr style='background:#EEF3F7'>
+	    <td>表名</td>
+	    <td>Engine</td>
+        <td >Rows</td>
+        <td>data_length</td>
+	    <td>Update_time</td>
+        <td>管理操作</td>
+    </tr>
+    <volist name="tables" id='ls'>
+    <tr>
+        <td><{$ls.Name}></td>
+        <td><{$ls.Engine}></td>
+        <td style="text-align:center;"><{$ls.Rows}></td>
+        <td><{$ls.Data_length}></td>
+        <td><{$ls.Update_time}></td>
+        <td><a href="<{:U('sysconfig/backdb')}>" class='back button info' title="<{$ls.Name}>">备 份</a></td>
+    </tr>
+    </volist>
+    </table> 
+</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+$(function(){
+     $('tr:gt(0)').hover(function(){$(this).css('background','#E3EFFB');},function(){$(this).css('background','#fff');})
+
+    $('.alert').ajaxStart(function(){
+        $(this).removeClass('hidden');   
+    });
+    $('.alert').ajaxStop(function(){
+        setTimeout(function(){
+                $('.alert').addClass('hidden');     
+            },1500);   
+    });
+   
+    $("a.back").click(function(){
+        var href = $(this).attr('href');
+        var table = $(this).attr('title');
+        $('.alert').text("...正在备份   "+table);
+        $.post(href,{'table':table},function(data){
+            if(data.status == 1){
+                $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                }
+            });
+        return false;
+    });       
+});
+</script>
+</block>

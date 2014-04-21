@@ -1,0 +1,75 @@
+<extend name="Public/base" />
+<block name="content">
+<div class='user metro'>
+<{if !isset($column['icon'])}>
+<form action='<{$_APP_}>/column/update_db/<{$column.id}>' method='post' enctype="multipart/form-data">
+<{else}>
+<form action='<{$_APP_}>/column/update_db/<{$column.id}>' method='post'>
+<{/if}>
+        <table border=0 cellpadding=5 cellspacing=2>
+            <caption>编辑栏目</caption>
+            <tr>
+                <td>背景色：</td>
+                <td>
+                    <select name='bg-color'>
+                        <option value="<{$column['bg-color']}>" selected ><{$column['bg-color']}></option>
+                        <option value="green" >green</option>
+                        <option value="greenDark">greenDark</option>
+                        <option value="greenLight">greenLight</option>
+                        <option value="greenDark">greenDark</option>
+                        <option value="pink">pink</option>
+                        <option value="pinkDark">pinkDark</option>
+                        <option value="yellow">yellow</option>
+                        <option value="darken">darken</option>
+                        <option value="purple">purple</option>
+                        <option value="blue">blue</option>
+                        <option value="lowblue">lowblue</option>
+                        <option value="blueDark">blueDark</option>
+                        <option value="blueLight">blueLight</option>
+                        <option value="orange">orange</option>
+                        <option value="orangeDark">orangeDark</option>
+                        <option value="red">red</option>
+                        <option value="white">white</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>栏目模型：</td>
+                <td>
+                    <input type='radio' name='type' value='1' />文章模型
+                    <input type='radio' name='type' value='2' />图片模型
+                    <input type='radio' name='type' value='3' />下载模型
+                </td>
+            </tr>
+            <tr>
+                <td>icon</td>
+<{if isset($column['icon'])}>
+<td><img src="/public/uploads/<{$column['icon']}>"  style='width:50px;height:50px;background-color:#333'/></td>
+<{else}>
+    <td><input type='file' name='userfile' /></td>
+<{/if}>
+<input type="hidden" name="have_icon" value="<{$column.icon}>" />
+            </tr>
+            <tr>
+                <td>栏目名称</td>
+                <td><input type="text" name='typename' value="<{$column.typename}>"/></td>
+            </tr>
+            <tr>
+                <td>链接</td>
+                <td><input type="text" name='link' value="<{$column.link}>"/></td>
+            </tr>
+            <tr>
+                <td>排序ID</td>
+                <td><input type="text" name='sortid' value="<{$column.sortid}>" /></td>
+            </tr>
+             <tr><td><input type='submit' class=sub value="提  交" /></td><td><input type='button' class=sub value="返  回" onClick="javascript:history.go(-1);" /></td></tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+$(function(){
+        var type=<{$column.type}>;
+    $(":radio[value="+type+"]").attr('checked',true);
+})
+</script>
+</block>

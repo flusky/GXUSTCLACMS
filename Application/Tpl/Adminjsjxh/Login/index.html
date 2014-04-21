@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>广西科技大学计算机爱好者协会后台登陆</title>
+    <script type="text/javascript" src="__STATIC__/admin/js/jquery-1.8.0.min.js"></script>
+    <link rel="stylesheet" href="__STATIC__/admin/css/register.css" />
+    <link rel="stylesheet" href="__STATIC__/admin/css/layout.css" />
+</head>
+<body>
+   <div class='signup_container'>
+    <h1 class='signup_title'>后台用户登陆</h1>
+    <div id="signup_forms" class="signup_forms clearfix">
+            <form class="signup_form_form" id="signup_form" method="post" action="<{:U('login/login')}>" >
+                    <div class="form_row first_row">
+                        <label for="signup_email">请输入用户名</label>
+                        <input type="text" name="username" placeholder="请输入用户名" id="signup_name" data-required="required">
+                    </div>
+                    <div class="form_row">
+                        <label for="signup_password">请输入密码</label>
+                        <input type="password" name="passwd" placeholder="请输入密码" id="signup_password" data-required="required">
+                    </div>
+                    <div class="form_row">
+                            <input type="text" name="verify" placeholder="请输入验证码" id="signup_select"  data-required="required">
+                            <img src="<{:U('login/vcode')}>" onclick="this.src+='?rand='+Math.random();" title="点击更换图片" style="cursor:pointer;margin:5px;" />
+                    </div>
+    </div>
+
+    <div class="login-btn-set">
+        <!--<div class='rem'>记住我</div> -->
+        <div class="span5 alert-danger hidden lgtip" style="padding:15px;margin:5px 0;border:1px solid transparent;border-radius:4px;"></div>
+        <!--<a href='javascript:void(0)' id='submit-btn' class='login-btn'></a>-->
+        <button  type='submit' class='abtn'>登 陆</button>
+        <!--<button style="submit" class='login-btn'></button>-->
+    </div>
+</form>
+    <p class='copyright'>广西科技大学大学生计算机爱好者协会</p>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+                
+                $('form').submit(function(){
+                    var action = $(this).attr('action');
+                    $.post(action,$(this).serialize(),function(data){
+                        if(data.status == '1'){
+                            location.href = data.url;
+                            }else{
+                            $('.lgtip').removeClass('hidden').text(data.info);
+                            }
+                        },'json');
+                    return false;
+                    });
+        })
+    </script>
+</body>
+</html>

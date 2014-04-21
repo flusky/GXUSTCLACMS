@@ -1,0 +1,13 @@
+<extend name="Public/base"/>
+<block name="content">
+    <!--<h4 class='text-center'>sdjfklsdjkflsjdkl</h4>-->
+    <ol>
+        <empty name="art">还没有资源
+        <else />
+        <volist name="art" id='ls'>
+        <li style="margin:5px 0;"><{$ls.name}><a href="<{$ls.down_url}>" target='_blank' class='button' style="margin-left:50px;"><span class="icon-download on-left"></span>百度网盘</a></li>
+        </volist>
+        </empty>
+    </ol>
+</block>
+

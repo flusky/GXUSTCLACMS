@@ -1,0 +1,109 @@
+<extend name="Public/base" />
+<block name="content">
+<!--<div class='center user metro'>-->
+    <table border=0 cellpadding=5 cellspacing=2 class='bordered'>
+        <caption>网站文章管理</caption>
+	<tr style='background:#EEF3F7'>
+	    <td>ID</td>
+	    <td>文章标题</td>
+	    <td>审核状态</td>
+	    <td>更新时间</td>
+	    <td>文章作者</td>
+	    <td>文章栏目</td>
+	    <td>浏览次数</td>
+        <td>管理操作  <a href="<{:U('article/add')}>">[添加文章]</a></td>
+    </tr>
+    <volist name="a" id='ls'>
+	<tr>
+        <td><{$ls.id}></td>
+        <td><{$ls.title}></td>
+        <td><{$ls.pass}>
+            <if condition="($ls['pass'] eq 0)">
+            <a class='button small info pass' href="<{:U('article/pass',array('aid'=>$ls['id']))}>">通过审核</a>
+            </if>
+        </td>
+        <td><{$ls.update_time|date="y-m-d",###}></td>
+        <td><{$ls.author}></td>
+        <td><{$ls.typename}></td>
+        <td><{$ls.scan_times}></td>
+        <td><a href="<{:U('article/add',array('aid'=>$ls['id']))}>">编辑</a>
+            &nbsp;<a href="<{:U('article/del',array('aid'=>$ls['id']))}>" class='del'>删除</a>
+        </td>
+    </tr>
+    </volist>
+    </table> 
+    <div class="pagination" style="margin-top: 20px;height:40px;">
+        <!--<div style="margin:20px 10px;line-height:35px;display:inline;">共[ <span class='red'></span> ]条记录  页次： /</div>-->
+        <ul>
+            <li style='margin-right:30px;'>共[ <span style='color:#f00;'><{$property.allRows}></span> ]条记录  页次：<{$property.nowPage}>/<{$property.pages}></li>
+            <!--<li class="prev"><a><i class="icon-previous"></i></a></li>-->
+            <!--<li><a>1</a></li>-->
+            <!--<li><a>2</a></li>-->
+            <!--<li class="active"><a>3</a></li>-->
+            <!--<li class="spaces"><a>...</a></li>-->
+            <!--<li class="disabled"><a>4</a></li>-->
+            <!--<li><a>500</a></li>-->
+            <!--<li class="next"><a><i class="icon-next"></i></a></li>-->
+
+
+            <if condition="($property.nowPage elt 1)">
+                <li class="disabled"><a>上一页</a></li>
+                <else />                
+                <li><a href="<{$property.prev}>">上一页</a></li>
+                </if>
+                <foreach name="property['url']" item="ls" key='i'>
+                <if condition="($i eq $property['nowPage'])">
+                <li class="active"><a href="javascript:void(0)"><{$i}></a></li>
+                <else />
+                <li ><a href="<{$ls}>"><{$i}></a></li>
+                </if>
+                </foreach>
+
+                <if condition="$property.nowPage egt $property['pages']">
+                <li class="disabled"><a>下一页</a></li>
+                <else />
+                <li><a href="<{$property.next}>">下一页</a></li>
+                </if>
+        </ul>
+    </div>
+    
+<script language="javascript">
+    $(function(){
+        $('tr:gt(0)').hover(function(){$(this).css('background','#E3EFFB');},function(){$(this).css('background','#fff');})
+
+        //审核文章的ajax get
+        $('.pass').click(function(){
+            var pass_url = $(this).attr('href');
+            $.get(pass_url,function(data){
+                if(data.status == 1){
+                    $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                    setTimeout(function(){
+                        location.reload();
+                    },1500);
+                    }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                }
+            },'json');
+            return false;
+        });
+
+        //删除文章ajax
+        
+        $('.del').click(function(){
+            var del_url = $(this).attr('href');
+            //alert(del_url);
+            $.get(del_url,function(data){
+                if(data.status == 1){
+                    $('.alert').removeClass('hidden alert-danger').addClass('alert-success').text(data.info);
+                    setTimeout(function(){
+                        location.reload();
+                    },1500);
+                    }else{
+                    $('.alert').removeClass('hidden alert-success').addClass('alert-danger').text(data.info);
+                }
+            },'json');
+            return false;
+        });
+    })
+</script>
+</block>
