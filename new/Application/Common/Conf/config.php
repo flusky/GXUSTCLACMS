@@ -15,4 +15,8 @@ return array(
 	'URL_CASE_INSENSITIVE'  =>  true,	//设置URL不区分大小写  
 	'URL_MODEL'				=>	1,		//URL模式设置为PATHINFO
 	'URL_ROUTER_ON'			=>	true,	//开启路由
+
+	# 模板配置
+	'TMPL_L_DELIM'	=>	'<{',	//设置左定界符	
+	'TMPL_R_DELIM'	=>	'}>',	//设置右定界符
 );
