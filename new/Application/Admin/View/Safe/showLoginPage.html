@@ -1,0 +1,68 @@
+<html>
+<head>
+	<title><{$TITLE}></title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<style>
+	body{
+		font-family:微软雅黑;
+		text-align:center;
+	}
+	#main{
+		margin-top:5%;
+		margin-left:auto;
+		margin-right:auto;
+		width:30%;
+		height:30%;
+		border-style:solid;
+		padding:3%;
+		border-radius:10px;
+	}
+	#main_left{
+		width:30%;
+		height:70%;
+		float:left;
+	}
+	#main_right{
+		width:70%;
+		height:70%;
+		float:right;
+	}
+	.var_name{
+		height:50%;
+		text-align:left;
+	}
+	.var_value{
+		height:50%;
+	}
+	.input{
+		width:100%;
+		border-radius:3px;
+		height:50%;
+		border-style:solid;
+		border-color:black;
+	}
+	#submit{
+		border-style:solid;
+		border-color:black;
+		background-color:white;
+		margin: 0px 2px;
+		text-align: center;
+		padding: 0.5em 2em 0.55em;
+		border-radius: 0.5em;
+	}
+</style>
+</head>
+	<center><h1><{$TITLE}></h1></center>
+	<form action="__ROOT__/admin/verify" method="post">
+		<div id="main">
+			<div id="main_left">
+				<div class="var_name">用户名</div>
+				<div class="var_name">密码</div>
+			</div>
+			<div id="main_right">
+				<div class="var_value"><input class="input" type="text" name="username"></input></div>
+				<div class="var_value"><input class="input" type="password" name="password"></input></div>
+			</div>
+			<input id="submit" type="submit" value="登陆"></input>
+		</div>
+</html>
